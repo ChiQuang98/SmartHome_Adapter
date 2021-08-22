@@ -1,0 +1,8 @@
+{
+  "GlogConfig": {
+    "MaxSize": 256,
+    "V": 8
+  },
+  "RestfulApiPort": 8006,
+  "RestfulApiHost": "0.0.0.0"
+}
