@@ -26,7 +26,6 @@ func init() {
 }
 func main() {
 	flag.Parse()
-	glog.Info("Init Redis database...")
 	routerApi := routers.InitRoutes()
 	nApi := negroni.Classic()
 	c := cors.New(cors.Options{
@@ -37,8 +36,6 @@ func main() {
 	nApi.Use(c)
 	nApi.UseHandler(routerApi)
 	host:=fmt.Sprint(settings.GetRestfulApiHost()+":",strconv.Itoa(settings.GetRestfulApiPort()))
-	fmt.Println(host)
-	glog.Error("test")
-	glog.Info("QUANG ")
 	http.ListenAndServe(host,nApi)
+	glog.Info("Service Started")
 }

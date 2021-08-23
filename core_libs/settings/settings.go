@@ -12,6 +12,17 @@ type Settings struct {
 	GlogConfig *GlogConfigs
 	RestfulApiPort       int
 	RestfulApiHost       string
+	MainfluxInfo *MainfluxInfo
+}
+type Endpoints struct{
+	Token    string
+	Things   string
+	Channels string
+}
+type MainfluxInfo struct {
+	Address string
+	Port int
+	Endpoints *Endpoints
 }
 var settings Settings = Settings{}
 func init() {
@@ -24,6 +35,12 @@ func init() {
 	if jsonErr != nil {
 		panic(jsonErr)
 	}
+}
+func GetMainfluxInfo() *MainfluxInfo{
+	return settings.MainfluxInfo
+}
+func GetEndPoints() *Endpoints {
+	return settings.MainfluxInfo.Endpoints
 }
 func GetGlogConfig() *GlogConfigs {
 	return settings.GlogConfig
