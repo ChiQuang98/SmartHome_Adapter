@@ -30,3 +30,6 @@ type ChannelRequest struct{
 	Name string `json:"name"`
 	Metadata *Metadata `json:"metadata"`
 }
+type ErrorResponse struct {
+	Error string `json:"error"`
+}
