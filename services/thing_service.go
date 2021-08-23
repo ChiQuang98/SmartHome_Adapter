@@ -63,7 +63,7 @@ func CreateThingMainflux(deviceCreate *models.DeviceCreate) (int,[]byte){
 	req.Header.Set("Content-Type","application/json")
 	req.Header = http.Header{
 		"Content-Type":[]string{"application/json"},
-		"Authorization": []string{*token},
+		"Authorization": []string{token},
 	}
 	resThingCreate, err := client.Do(req)
 	defer resThingCreate.Body.Close()

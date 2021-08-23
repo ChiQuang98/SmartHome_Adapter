@@ -10,7 +10,7 @@ import (
 
 
 func CreateDevice(deviceCreate *models.DeviceCreate) (int,[]byte) {
-	token:=*deviceCreate.Token
+	token:=deviceCreate.Token
 	//TODO: Create Thing API
 	statusCreateThing,res:=CreateThingMainflux(deviceCreate)
 	if statusCreateThing!=201{

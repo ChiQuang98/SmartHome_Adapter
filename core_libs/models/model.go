@@ -1,6 +1,9 @@
 package models
 type DeviceCreate struct{
-	Token *string `json:"token"`
+	Token string `json:"token"`
+	MacAddress *string `json:"mac_address"`
+}
+type MacAddress struct {
 	MacAddress *string `json:"mac_address"`
 }
 type ThingRequest struct{
