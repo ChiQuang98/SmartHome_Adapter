@@ -6,9 +6,9 @@ servers:
   - url: http://aiot-smarthome-adapter.mobi
 
 paths:
-  /thing:
+  /smarthome/v1/create-device:
     post:
-      summary: create thing
+      summary: create device
       requestBody:
         required: true
         content:
@@ -19,30 +19,37 @@ paths:
                   type: string
                   example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU0MjQ4MzgsImlhdCI6MTYxNTM4ODgzOCwiaXNzIjoibWFpbmZsdXguYXV0aCIsInN1YiI6InRlc3RAZW1haWwuY29tIiwiaXNzdWVyX2lkIjoiZDc4MmI0MmItZTMxNy00Y2Q3LTlkZDAtNGUyZWEwZjM0OWM4IiwidHlwZSI6MH0.TAQxV6TImKw06RsK0J11rOHiWPvexEOA4BNZnhLhtxs
                   description: mainflux user token
+                mac_address:
+                  type: string
+                  example: 2C:54:91:88:C9:E3 or 2c-54-91-88-c9-e3
       responses:
         "200":
-          description: ok
+          description: ""
           content:
             application/json:
               schema:
                 properties:
-                  success:
-                    type: boolean
-                    example: true
-        "401":
-          description: ok
+                  thing_key:
+                    type: string
+                    example: 64140f0b-6448-41cf-967e-1bbcc703c332
+                  thing_id: 
+                    type: string
+                    example: 64140f0b-6448-41cf-967e-1bbcc703c332
+                  channel_id: 
+                    type: string
+                    example: 7e95501e-8cee-48f6-b035-a0500a6b4c96
+        "500":
+          description: ""
           content:
             application/json:
               schema:
                 properties:
-                  success:
-                    type: boolean
-                    example: false
-                  message: 
+                  error: 
                     type: string
                     example: Invalid token
-    delete:
-      summary: delete thing by id
+  /smarthome/v1/delete-device:
+    post:
+      summary: delete device
       requestBody:
         required: true
         content:
@@ -56,9 +63,12 @@ paths:
                 thing_id: 
                   type: string
                   example: 64140f0b-6448-41cf-967e-1bbcc703c332
+                channel_id: 
+                  type: string
+                  example: 7e95501e-8cee-48f6-b035-a0500a6b4c96
       responses:
         "200":
-          description: ok
+          description: ""
           content:
             application/json:
               schema:
@@ -67,26 +77,20 @@ paths:
                     type: boolean
                     example: true
         "401":
-          description: ok
+          description: ""
           content:
             application/json:
               schema:
                 properties:
-                  success:
-                    type: boolean
-                    example: false
-                  message: 
+                  error: 
                     type: string
                     example: Invalid token
-        "400":
-          description: ok
+        "500":
+          description: ""
           content:
             application/json:
               schema:
                 properties:
-                  success:
-                    type: boolean
-                    example: false
-                  message: 
+                  error: 
                     type: string
-                    example: thing not found
+                    example: can not connect to mainflux api

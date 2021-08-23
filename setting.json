@@ -6,11 +6,11 @@
   "RestfulApiPort": 8006,
   "RestfulApiHost": "0.0.0.0",
   "MainfluxInfo": {
-    "Address": "10.16.150.132",
+    "Address": "localhost",
     "Port": 80,
     "Endpoints": {
       "Token": "/tokens",
-      "Things":"/things",
+      "Things": "/things",
       "Channels": "/channels"
     }
   }

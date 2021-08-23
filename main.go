@@ -5,13 +5,15 @@ import (
 	"SmartHome_Adapter/routers"
 	"flag"
 	"fmt"
-	"github.com/codegangsta/negroni"
-	"github.com/golang/glog"
-	"github.com/rs/cors"
 	"net/http"
 	"os"
 	"strconv"
+
+	"github.com/codegangsta/negroni"
+	"github.com/golang/glog"
+	"github.com/rs/cors"
 )
+
 func init() {
 	//glog
 	//create logs folder
@@ -35,7 +37,7 @@ func main() {
 	})
 	nApi.Use(c)
 	nApi.UseHandler(routerApi)
-	host:=fmt.Sprint(settings.GetRestfulApiHost()+":",strconv.Itoa(settings.GetRestfulApiPort()))
-	http.ListenAndServe(host,nApi)
+	host := fmt.Sprint(settings.GetRestfulApiHost()+":", strconv.Itoa(settings.GetRestfulApiPort()))
+	http.ListenAndServe(host, nApi)
 	glog.Info("Service Started")
 }
