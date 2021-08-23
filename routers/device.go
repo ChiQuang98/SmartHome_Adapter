@@ -11,6 +11,10 @@ func SetDeviceRouter(router *mux.Router) *mux.Router {
 		negroni.New(
 			negroni.HandlerFunc(controllers.CreateDevice),
 		)).Methods("POST")
+	//TODO "/smarthome/v1/delete-device" <--- use this url
+
+
+
 	router.Handle("/smarthome/v1/testHello",
 		negroni.New(
 			negroni.HandlerFunc(controllers.HelloWorld),
