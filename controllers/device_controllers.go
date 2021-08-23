@@ -19,7 +19,6 @@ func CreateDevice(w http.ResponseWriter, r *http.Request, n http.HandlerFunc)  {
 		w.WriteHeader(status)
 		w.Write(res)
 	}
-
 }
 func HelloWorld(w http.ResponseWriter, r *http.Request, n http.HandlerFunc)  {
 	w.WriteHeader(http.StatusOK)
