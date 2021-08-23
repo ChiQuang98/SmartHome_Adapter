@@ -17,7 +17,9 @@ func CreateDevice(w http.ResponseWriter, r *http.Request, n http.HandlerFunc)  {
 	} else {
 		status, res := services.CreateDevice(deviceCreate)
 		w.WriteHeader(status)
-		w.Write(res)
+		if(status == http.StatusOK){
+			w.Write(res)
+		}
 	}
 }
 func HelloWorld(w http.ResponseWriter, r *http.Request, n http.HandlerFunc)  {

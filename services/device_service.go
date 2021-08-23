@@ -14,18 +14,27 @@ func CreateDevice(deviceCreate *models.DeviceCreate) (int,[]byte) {
 	//TODO: Create Thing API
 	statusCreateThing,res:=CreateThingMainflux(deviceCreate)
 	if statusCreateThing!=201{
-		return statusCreateThing,res
+		if statusCreateThing == 401 ||statusCreateThing==400{
+			return statusCreateThing,res
+		}
+		return http.StatusInternalServerError,res
 	}
 	//Todo: Get Thing Info
 	thingID:=string(res)
 	statusCodeGetThing,thingMainflux,err:=GetThingMainflux(thingID,token)
 	if err!=nil{
-		return statusCodeGetThing,err
+		if statusCodeGetThing == 401||statusCodeGetThing==400 {
+			return statusCodeGetThing,err
+		}
+		return http.StatusInternalServerError,err
 	}
 	//TODO Create Channel
 	statusCreateChannel,res:=CreateChannel(deviceCreate)
 	if statusCreateChannel!=201{
-		return statusCreateChannel,res
+		if statusCreateChannel == 401 ||statusCreateChannel==400{
+			return statusCreateChannel,res
+		}
+		return http.StatusInternalServerError,res
 	}
 	channelID:=string(res)
 	responseCreateDevice:=&models.ResponseCreateDevice{
@@ -36,7 +45,10 @@ func CreateDevice(deviceCreate *models.DeviceCreate) (int,[]byte) {
 	//TODO Connect Thing To Channel
 	statusConnect,res := ConnectThingToChannel(token,*responseCreateDevice)
 	if statusConnect!=200{
-		return statusConnect,res
+		if statusConnect == 401 ||statusConnect==400{
+			return statusConnect,res
+		}
+		return http.StatusInternalServerError,res
 	}
 	response,err1 :=json.Marshal(&responseCreateDevice)
 	if err1!=nil{
