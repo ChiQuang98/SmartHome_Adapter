@@ -19,7 +19,7 @@ paths:
               properties:
                 mac_address:
                   type: string
-                  example: 2C:54:91:88:C9:E3 or 2c-54-91-88-c9-e3
+                  example: 2C:54:91:88:C9:E3
       responses:
         "200":
           description: ""
