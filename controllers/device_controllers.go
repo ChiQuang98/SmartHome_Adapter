@@ -34,7 +34,7 @@ func DeleteDevice(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) {
 	req := models.DeviceDelete{}
 
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		responseJson(w, http.StatusInternalServerError, map[string]string{
+		responseJson(w, http.StatusBadRequest, map[string]string{
 			"error": errors.E(op, err).Error(),
 		})
 		return

@@ -36,6 +36,13 @@ paths:
                   channel_id: 
                     type: string
                     example: 7e95501e-8cee-48f6-b035-a0500a6b4c96
+        "400":
+          description: "Bad request"
+        "401":
+          description: "Invalid token"
+        "500":
+          description: "Internal server error"
+
   /smarthome/v1/delete-device:
     post:
       summary: delete device
@@ -63,6 +70,15 @@ paths:
                   success:
                     type: boolean
                     example: true
+        "400":
+          description: ""
+          content:
+            application/json:
+              schema:
+                properties:
+                  error: 
+                    type: string
+                    example: invalid body format
         "401":
           description: ""
           content:
