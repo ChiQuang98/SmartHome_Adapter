@@ -15,7 +15,7 @@ import (
 )
 
 func CreateChannel(deviceCreate *models.DeviceCreate) (int, []byte) {
-	token := *deviceCreate.Token
+	token := deviceCreate.Token
 	client := &http.Client{}
 	metadata := &models.Metadata{
 		Type: "SmartHome",

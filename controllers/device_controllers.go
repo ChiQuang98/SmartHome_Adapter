@@ -9,16 +9,22 @@ import (
 )
 
 func CreateDevice(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) {
-	deviceCreate := new(models.DeviceCreate)
+	macAddress := new(models.MacAddress)
 	decoder := json.NewDecoder(r.Body)
-	err := decoder.Decode(deviceCreate)
+	err := decoder.Decode(macAddress)
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	if err != nil || deviceCreate.Token == nil || *deviceCreate.Token == "" || deviceCreate.MacAddress == nil || *deviceCreate.MacAddress == "" {
+	if err != nil || macAddress.MacAddress == nil || *macAddress.MacAddress == "" {
 		w.WriteHeader(http.StatusBadRequest)
 	} else {
+		token := r.Header.Get("Authorization")
+		deviceCreate := new(models.DeviceCreate)
+		deviceCreate.MacAddress = macAddress.MacAddress
+		deviceCreate.Token = token
 		status, res := services.CreateDevice(deviceCreate)
 		w.WriteHeader(status)
-		w.Write(res)
+		if status == http.StatusOK {
+			w.Write(res)
+		}
 	}
 }
 
@@ -34,7 +40,9 @@ func DeleteDevice(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) {
 		return
 	}
 
-	if err := services.DeleteDevice(req); err != nil {
+	token := r.Header.Get("Authorization")
+
+	if err := services.DeleteDevice(token, req.ThingID, req.ChannelID); err != nil {
 		if errors.Is(errors.KindInvalidToken, err) {
 			responseJson(w, http.StatusUnauthorized, map[string]interface{}{
 				"error":   errors.E(op, err).Error(),

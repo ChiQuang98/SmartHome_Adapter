@@ -38,6 +38,6 @@ func main() {
 	nApi.Use(c)
 	nApi.UseHandler(routerApi)
 	host := fmt.Sprint(settings.GetRestfulApiHost()+":", strconv.Itoa(settings.GetRestfulApiPort()))
-	http.ListenAndServe(host, nApi)
 	glog.Info("Service Started")
+	http.ListenAndServe(host, nApi)
 }

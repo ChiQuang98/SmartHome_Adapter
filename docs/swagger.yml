@@ -9,6 +9,8 @@ paths:
   /smarthome/v1/create-device:
     post:
       summary: create device
+      security:
+        - TokenAuth: []
       requestBody:
         required: true
         content:
@@ -38,28 +40,17 @@ paths:
                   channel_id: 
                     type: string
                     example: 7e95501e-8cee-48f6-b035-a0500a6b4c96
-        "500":
-          description: ""
-          content:
-            application/json:
-              schema:
-                properties:
-                  error: 
-                    type: string
-                    example: Invalid token
   /smarthome/v1/delete-device:
     post:
       summary: delete device
+      security:
+        - TokenAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
               properties:
-                token:
-                  type: string
-                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTU0MjQ4MzgsImlhdCI6MTYxNTM4ODgzOCwiaXNzIjoibWFpbmZsdXguYXV0aCIsInN1YiI6InRlc3RAZW1haWwuY29tIiwiaXNzdWVyX2lkIjoiZDc4MmI0MmItZTMxNy00Y2Q3LTlkZDAtNGUyZWEwZjM0OWM4IiwidHlwZSI6MH0.TAQxV6TImKw06RsK0J11rOHiWPvexEOA4BNZnhLhtxs
-                  description: mainflux user token
                 thing_id: 
                   type: string
                   example: 64140f0b-6448-41cf-967e-1bbcc703c332
@@ -94,3 +85,10 @@ paths:
                   error: 
                     type: string
                     example: can not connect to mainflux api
+
+components:
+  securitySchemes:
+    TokenAuth:       
+      type: apiKey
+      in: header     
+      name: token

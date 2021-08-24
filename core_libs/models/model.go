@@ -1,12 +1,14 @@
 package models
 
 type DeviceCreate struct {
-	Token      *string `json:"token"`
+	Token      string  `json:"token"`
+	MacAddress *string `json:"mac_address"`
+}
+type MacAddress struct {
 	MacAddress *string `json:"mac_address"`
 }
 
 type DeviceDelete struct {
-	Token     string `json:"token"`
 	ThingID   string `json:"thing_id"`
 	ChannelID string `json:"channel_id"`
 }
@@ -37,4 +39,7 @@ type Metadata struct {
 type ChannelRequest struct {
 	Name     string    `json:"name"`
 	Metadata *Metadata `json:"metadata"`
+}
+type ErrorResponse struct {
+	Error string `json:"error"`
 }
