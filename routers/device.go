@@ -8,12 +8,12 @@ import (
 )
 
 func SetDeviceRouter(router *mux.Router) *mux.Router {
-	router.Handle("/smarthome/v1/create-device",
+	router.Handle("/things/smarthome/v1/create-device",
 		negroni.New(
 			negroni.HandlerFunc(controllers.CreateDevice),
 		)).Methods("POST")
 
-	router.Handle("/smarthome/v1/delete-device",
+	router.Handle("/things/smarthome/v1/delete-device",
 		negroni.New(
 			negroni.HandlerFunc(controllers.DeleteDevice),
 		)).Methods("POST")
