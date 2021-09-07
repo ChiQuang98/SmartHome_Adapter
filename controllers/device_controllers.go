@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"SmartHome_Adapter/core_libs/base"
 	"SmartHome_Adapter/core_libs/models"
 	"SmartHome_Adapter/errors"
 	"SmartHome_Adapter/services"
@@ -15,6 +16,9 @@ func CreateDevice(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	if err != nil || macAddress.MacAddress == nil || *macAddress.MacAddress == "" {
 		w.WriteHeader(http.StatusBadRequest)
+		ResponseErr:=models.ErrorResponse{Error: base.BAD_REQUEST}
+		response,_ := json.Marshal(&ResponseErr)
+		w.Write(response)
 	} else {
 		token := r.Header.Get("Authorization")
 		deviceCreate := new(models.DeviceCreate)
