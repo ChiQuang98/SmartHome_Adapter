@@ -24,6 +24,10 @@ func CreateDevice(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) {
 		w.WriteHeader(status)
 		if status == http.StatusOK {
 			w.Write(res)
+		} else{
+			ResponseErr:=models.ErrorResponse{Error: string(res)}
+			response,_ := json.Marshal(&ResponseErr)
+			w.Write(response)
 		}
 	}
 }

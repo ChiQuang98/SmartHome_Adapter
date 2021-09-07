@@ -1,6 +1,7 @@
 package services
 
 import (
+	"SmartHome_Adapter/core_libs/base"
 	"SmartHome_Adapter/core_libs/models"
 	"SmartHome_Adapter/errors"
 	"encoding/json"
@@ -14,27 +15,36 @@ func CreateDevice(deviceCreate *models.DeviceCreate) (int, []byte) {
 	//TODO: Create Thing API
 	statusCreateThing, res := CreateThingMainflux(deviceCreate)
 	if statusCreateThing != 201 {
-		if statusCreateThing == 401 || statusCreateThing == 400 {
-			return statusCreateThing, res
+		if statusCreateThing == 401  {
+			return statusCreateThing, []byte(base.UNAUTHORIZED)
 		}
-		return http.StatusInternalServerError, res
+		if  statusCreateThing == 400{
+			return statusCreateThing, []byte(base.BAD_REQUEST)
+		}
+		return http.StatusInternalServerError, []byte(base.SERVER_ERROR)
 	}
 	//Todo: Get Thing Info
 	thingID := string(res)
 	statusCodeGetThing, thingMainflux, err := GetThingMainflux(thingID, token)
 	if err != nil {
-		if statusCodeGetThing == 401 || statusCodeGetThing == 400 {
-			return statusCodeGetThing, err
+		if statusCodeGetThing == 401 {
+			return statusCodeGetThing,[]byte(base.UNAUTHORIZED)
 		}
-		return http.StatusInternalServerError, err
+		if statusCodeGetThing == 400 {
+			return statusCodeGetThing,[]byte(base.BAD_REQUEST)
+		}
+		return http.StatusInternalServerError, []byte(base.SERVER_ERROR)
 	}
 	//TODO Create Channel
 	statusCreateChannel, res := CreateChannel(deviceCreate)
 	if statusCreateChannel != 201 {
-		if statusCreateChannel == 401 || statusCreateChannel == 400 {
-			return statusCreateChannel, res
+		if statusCreateChannel == 401  {
+			return statusCreateChannel, []byte(base.UNAUTHORIZED)
 		}
-		return http.StatusInternalServerError, res
+		if statusCreateChannel == 400{
+			return statusCreateChannel, []byte(base.BAD_REQUEST)
+		}
+		return http.StatusInternalServerError, []byte(base.SERVER_ERROR)
 	}
 	channelID := string(res)
 	responseCreateDevice := &models.ResponseCreateDevice{
@@ -45,15 +55,18 @@ func CreateDevice(deviceCreate *models.DeviceCreate) (int, []byte) {
 	//TODO Connect Thing To Channel
 	statusConnect, res := ConnectThingToChannel(token, *responseCreateDevice)
 	if statusConnect != 200 {
-		if statusConnect == 401 || statusConnect == 400 {
-			return statusConnect, res
+		if statusConnect == 401{
+			return statusConnect, []byte(base.UNAUTHORIZED)
 		}
-		return http.StatusInternalServerError, res
+		if statusConnect == 400{
+			return statusConnect,  []byte(base.BAD_REQUEST)
+		}
+		return http.StatusInternalServerError, []byte(base.SERVER_ERROR)
 	}
 	response, err1 := json.Marshal(&responseCreateDevice)
 	if err1 != nil {
 		glog.Error(err1.Error())
-		return http.StatusInternalServerError, []byte(err1.Error())
+		return http.StatusInternalServerError, []byte(base.SERVER_ERROR)
 	}
 	return 200, response
 }
