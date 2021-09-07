@@ -16,8 +16,8 @@ func CreateDevice(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	if err != nil || macAddress.MacAddress == nil || *macAddress.MacAddress == "" {
 		w.WriteHeader(http.StatusBadRequest)
-		ResponseErr:=models.ErrorResponse{Error: base.BAD_REQUEST}
-		response,_ := json.Marshal(&ResponseErr)
+		ResponseErr := models.ErrorResponse{Error: base.BAD_REQUEST}
+		response, _ := json.Marshal(&ResponseErr)
 		w.Write(response)
 	} else {
 		token := r.Header.Get("Authorization")
@@ -28,22 +28,20 @@ func CreateDevice(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) {
 		w.WriteHeader(status)
 		if status == http.StatusOK {
 			w.Write(res)
-		} else{
-			ResponseErr:=models.ErrorResponse{Error: string(res)}
-			response,_ := json.Marshal(&ResponseErr)
+		} else {
+			ResponseErr := models.ErrorResponse{Error: string(res)}
+			response, _ := json.Marshal(&ResponseErr)
 			w.Write(response)
 		}
 	}
 }
 
 func DeleteDevice(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) {
-	op := errors.Op("controllers.DeleteDevice")
-
 	req := models.DeviceDelete{}
 
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		responseJson(w, http.StatusBadRequest, map[string]string{
-			"error": errors.E(op, err).Error(),
+			"error": base.BAD_REQUEST,
 		})
 		return
 	}
@@ -53,15 +51,13 @@ func DeleteDevice(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) {
 	if err := services.DeleteDevice(token, req.ThingID, req.ChannelID); err != nil {
 		if errors.Is(errors.KindInvalidToken, err) {
 			responseJson(w, http.StatusUnauthorized, map[string]interface{}{
-				"error":   errors.E(op, err).Error(),
-				"success": false,
+				"error": base.UNAUTHORIZED,
 			})
 			return
 		}
 
 		responseJson(w, http.StatusInternalServerError, map[string]interface{}{
-			"error":   errors.E(op, err).Error(),
-			"success": false,
+			"error": base.SERVER_ERROR,
 		})
 		return
 	}
