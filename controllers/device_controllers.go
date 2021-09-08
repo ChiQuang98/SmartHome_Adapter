@@ -46,6 +46,13 @@ func DeleteDevice(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) {
 		return
 	}
 
+	if err := req.Validate(); err != nil {
+		responseJson(w, http.StatusBadRequest, map[string]string{
+			"error": base.BAD_REQUEST,
+		})
+		return
+	}
+
 	token := r.Header.Get("Authorization")
 
 	if err := services.DeleteDevice(token, req.ThingID, req.ChannelID); err != nil {

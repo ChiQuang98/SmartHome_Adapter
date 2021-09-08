@@ -1,5 +1,7 @@
 package models
 
+import "fmt"
+
 type DeviceCreate struct {
 	Token      string  `json:"token"`
 	MacAddress *string `json:"mac_address"`
@@ -11,6 +13,18 @@ type MacAddress struct {
 type DeviceDelete struct {
 	ThingID   string `json:"thing_id"`
 	ChannelID string `json:"channel_id"`
+}
+
+func (r DeviceDelete) Validate() error {
+	if r.ThingID == "" {
+		return fmt.Errorf("ThingID empty")
+	}
+
+	if r.ChannelID == "" {
+		return fmt.Errorf("ChannelID empty")
+	}
+
+	return nil
 }
 
 type ThingRequest struct {
@@ -40,6 +54,7 @@ type ChannelRequest struct {
 	Name     string    `json:"name"`
 	Metadata *Metadata `json:"metadata"`
 }
+
 type ErrorResponse struct {
 	Error string `json:"error"`
 }
