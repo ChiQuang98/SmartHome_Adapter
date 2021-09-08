@@ -55,6 +55,50 @@ func DeleteDevice(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) {
 
 	token := r.Header.Get("Authorization")
 
+	thingExists, err := services.ThingExists(token, req.ThingID)
+	if err != nil {
+		if errors.Is(errors.KindInvalidToken, err) {
+			responseJson(w, http.StatusUnauthorized, map[string]interface{}{
+				"error": base.UNAUTHORIZED,
+			})
+			return
+		}
+
+		responseJson(w, http.StatusNotFound, map[string]interface{}{
+			"error": base.SERVER_ERROR,
+		})
+		return
+	}
+
+	if !thingExists {
+		responseJson(w, http.StatusNotFound, map[string]interface{}{
+			"error": "Thing not found",
+		})
+		return
+	}
+
+	channelExists, err := services.ChannelExists(token, req.ChannelID)
+	if err != nil {
+		if errors.Is(errors.KindInvalidToken, err) {
+			responseJson(w, http.StatusUnauthorized, map[string]interface{}{
+				"error": base.UNAUTHORIZED,
+			})
+			return
+		}
+
+		responseJson(w, http.StatusInternalServerError, map[string]interface{}{
+			"error": base.SERVER_ERROR,
+		})
+		return
+	}
+
+	if !channelExists {
+		responseJson(w, http.StatusNotFound, map[string]interface{}{
+			"error": "channel not found",
+		})
+		return
+	}
+
 	if err := services.DeleteDevice(token, req.ThingID, req.ChannelID); err != nil {
 		if errors.Is(errors.KindInvalidToken, err) {
 			responseJson(w, http.StatusUnauthorized, map[string]interface{}{

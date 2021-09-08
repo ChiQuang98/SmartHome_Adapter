@@ -47,6 +47,7 @@ func GetThingMainflux(thingID string, token string) (int, models.ThingMainflux, 
 	}
 	return res.StatusCode, thingMainflux, nil
 }
+
 func CreateThingMainflux(deviceCreate *models.DeviceCreate) (int, []byte) {
 	token := deviceCreate.Token
 	metadata := &models.Metadata{
@@ -106,4 +107,52 @@ func DeleteMainfluxThingById(token, thingId string) error {
 	}
 
 	return nil
+}
+
+func ThingExists(token, thingId string) (bool, error) {
+	op := errors.Op("services.ThingExists")
+
+	req, err := http.NewRequest(
+		http.MethodGet,
+		fmt.Sprintf("%s%s/%s", urlMainflux, settings.GetEndPoints().Things, thingId),
+		nil,
+	)
+
+	if err != nil {
+		return false, errors.E(op, err)
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", token)
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return false, errors.E(op, err)
+	}
+
+	if resp.StatusCode == http.StatusUnauthorized {
+		return false, errors.E(op, errors.KindInvalidToken, fmt.Errorf("invalid token"))
+	}
+
+	if resp.StatusCode == http.StatusNotFound {
+		var body struct {
+			Error string `json:"error"`
+		}
+
+		if err := json.NewDecoder(resp.Body).Decode(&body); err != nil {
+			return false, errors.E(op, err)
+		}
+
+		if body.Error != "non-existent entity" {
+			return false, errors.E(op, err)
+		}
+
+		return false, nil
+	}
+
+	if resp.StatusCode == http.StatusOK {
+		return true, nil
+	}
+
+	return false, errors.E(op, fmt.Errorf("unexpected error: %d", resp.StatusCode))
 }
