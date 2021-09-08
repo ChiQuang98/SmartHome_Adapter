@@ -70,7 +70,7 @@ func DeleteDevice(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) {
 	}
 
 	responseJson(w, http.StatusOK, map[string]interface{}{
-		"success": true,
+		"result": "success",
 	})
 }
 
