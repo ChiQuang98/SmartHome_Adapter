@@ -13,7 +13,37 @@ import (
 
 	"github.com/golang/glog"
 )
-
+func SendMessage(token string, deviceSetting *models.DeviceSettingApp) (int, []byte){
+	///http/channels/79f4a262-fe70-460c-8575-3969f0047135/messages
+	client := &http.Client{}
+	urlSendMessage := urlMainflux +"/http/channels/"+deviceSetting.ChannelID+"/messages"
+	body := &models.DeviceSettingAppBody{
+		MacAdress:       deviceSetting.MacAdress,
+		DeviceVolume:    deviceSetting.DeviceVolume,
+		PasswordSetting: deviceSetting.PasswordSetting,
+		ArmDelay:        deviceSetting.ArmDelay,
+		AlarmDelay:      deviceSetting.AlarmDelay,
+		AlarmDuaration:  deviceSetting.AlarmDuaration,
+	}
+	jsonDeviceSetting, _ := json.Marshal(body)
+	req, err := http.NewRequest(http.MethodPost, urlSendMessage, bytes.NewBuffer(jsonDeviceSetting))
+	if err != nil {
+		glog.Error("Fail request api send Message Mainflux", err)
+		return http.StatusInternalServerError, []byte(err.Error())
+	}
+	req.Header.Set("Content-Type", "application/json")
+	req.Header = http.Header{
+		"Content-Type":  []string{"application/json"},
+		"Authorization": []string{token},
+	}
+	resChannel, err := client.Do(req)
+	defer resChannel.Body.Close()
+	if resChannel.StatusCode != 202 {
+		data, _ := ioutil.ReadAll(resChannel.Body)
+		return resChannel.StatusCode, data
+	}
+	return resChannel.StatusCode,nil
+}
 func CreateChannel(deviceCreate *models.DeviceCreate) (int, []byte) {
 	token := deviceCreate.Token
 	client := &http.Client{}

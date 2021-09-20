@@ -117,7 +117,29 @@ func DeleteDevice(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) {
 		"result": "success",
 	})
 }
-
+func DeviceSettingApp(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) {
+	deviceSettingApp := new(models.DeviceSettingApp)
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(deviceSettingApp)
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		ResponseErr := models.ErrorResponse{Error: base.BAD_REQUEST}
+		response, _ := json.Marshal(&ResponseErr)
+		w.Write(response)
+	} else {
+		token := r.Header.Get("Authorization")
+		status, res := services.DeviceSettingApp(token,deviceSettingApp)
+		w.WriteHeader(status)
+		if status == http.StatusOK {
+			w.Write(res)
+		} else {
+			ResponseErr := models.ErrorResponse{Error: string(res)}
+			response, _ := json.Marshal(&ResponseErr)
+			w.Write(response)
+		}
+	}
+}
 func HelloWorld(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("HelloWolrd"))

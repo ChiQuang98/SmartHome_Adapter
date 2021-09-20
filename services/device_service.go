@@ -90,3 +90,25 @@ func DeleteDevice(token, thingId, channelId string) error {
 
 	return nil
 }
+
+func DeviceSettingApp(thingToken string,deviceSetting *models.DeviceSettingApp) (int, []byte)  {
+	statusSendMessage, res := SendMessage(thingToken,deviceSetting)
+	if statusSendMessage != 202 && res!=nil {
+		if statusSendMessage == 403  {
+			return 401, []byte(base.UNAUTHORIZED)
+		}
+		if  statusSendMessage == 400{
+			return 400, []byte(base.BAD_REQUEST)
+		}
+		return http.StatusInternalServerError, []byte(base.SERVER_ERROR)
+	}
+	responseSettingDevice := &models.SuccessResponse{
+		Result: "success",
+	}
+	response, err1 := json.Marshal(&responseSettingDevice)
+	if err1 != nil {
+		glog.Error(err1.Error())
+		return http.StatusInternalServerError, []byte(base.SERVER_ERROR)
+	}
+	return 200, response
+}

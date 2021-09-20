@@ -8,16 +8,19 @@ import (
 )
 
 func SetDeviceRouter(router *mux.Router) *mux.Router {
-	router.Handle("/things/smarthome/v1/create-device",
+	router.Handle("/aiot-smarthome/v1/app/create-device",
 		negroni.New(
 			negroni.HandlerFunc(controllers.CreateDevice),
 		)).Methods("POST")
 
-	router.Handle("/things/smarthome/v1/delete-device",
+	router.Handle("/aiot-smarthome/v1/app/delete-device",
 		negroni.New(
 			negroni.HandlerFunc(controllers.DeleteDevice),
 		)).Methods("POST")
-
+	router.Handle("/aiot-smarthome/v1/app/device-setting",
+		negroni.New(
+			negroni.HandlerFunc(controllers.DeviceSettingApp),
+		)).Methods("POST")
 	router.Handle("/smarthome/v1/testHello",
 		negroni.New(
 			negroni.HandlerFunc(controllers.HelloWorld),
