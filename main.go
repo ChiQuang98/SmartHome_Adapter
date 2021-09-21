@@ -1,7 +1,9 @@
 package main
 
 import (
+	"SmartHome_Adapter/bind"
 	"SmartHome_Adapter/core_libs/settings"
+	"SmartHome_Adapter/influxdb"
 	"SmartHome_Adapter/routers"
 	"flag"
 	"fmt"
@@ -27,7 +29,17 @@ func init() {
 	flag.Parse()
 }
 func main() {
-	flag.Parse()
+	influxClient, err := influxdb.Connect(settings.GetInfluxInfo())
+	if err != nil {
+		glog.Fatalf("[ERROR] connect influx: %v", err)
+	}
+
+	influxRepo := influxdb.NewRepository(influxClient)
+
+	bind.RegisterInfluxRepository(influxRepo)
+
+	influxRepo.GetLatestSmartHomeAppLog("QUA1N42G3MAC")
+
 	routerApi := routers.InitRoutes()
 	nApi := negroni.Classic()
 	c := cors.New(cors.Options{

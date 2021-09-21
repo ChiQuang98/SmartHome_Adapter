@@ -5,6 +5,11 @@
   },
   "RestfulApiPort": 8006,
   "RestfulApiHost": "0.0.0.0",
+  "InfluxInfo": {
+    "Host": "http://10.16.150.134:8086",
+    "Username": "mainflux",
+    "Password": "mainflux"
+  },
   "MainfluxInfo": {
     "Address": "10.16.150.132",
     "Port": 80,
