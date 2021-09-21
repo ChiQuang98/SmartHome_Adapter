@@ -12,7 +12,6 @@ func SetDeviceRouter(router *mux.Router) *mux.Router {
 		negroni.New(
 			negroni.HandlerFunc(controllers.CreateDevice),
 		)).Methods("POST")
-
 	router.Handle("/aiot-smarthome/v1/app/delete-device",
 		negroni.New(
 			negroni.HandlerFunc(controllers.DeleteDevice),
