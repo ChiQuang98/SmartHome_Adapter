@@ -45,8 +45,6 @@ func (r Repository) GetLatestSmartHomeAppLog(macAddr string) (services.AppLog, e
 		return services.AppLog{}, errors.E(op, err)
 	}
 
-	fmt.Println(response)
-
 	values := [][]interface{}{}
 	for _, result := range response.Results {
 		for _, se := range result.Series {
