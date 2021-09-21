@@ -122,7 +122,7 @@ func DeviceAlarmOff(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) 
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(deviceAlarmOff)
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	if err != nil {
+	if err != nil || deviceAlarmOff.MacAddress == "" || deviceAlarmOff.ChannelID == "" {
 		w.WriteHeader(http.StatusBadRequest)
 		ResponseErr := models.ErrorResponse{Error: base.BAD_REQUEST}
 		response, _ := json.Marshal(&ResponseErr)
@@ -146,7 +146,7 @@ func DeviceSettingApp(w http.ResponseWriter, r *http.Request, n http.HandlerFunc
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(deviceSettingApp)
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	if err != nil  {
+	if err != nil || deviceSettingApp.ChannelID == "" || deviceSettingApp.MacAddress == "" {
 		w.WriteHeader(http.StatusBadRequest)
 		ResponseErr := models.ErrorResponse{Error: base.BAD_REQUEST}
 		response, _ := json.Marshal(&ResponseErr)

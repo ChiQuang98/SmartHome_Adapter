@@ -18,13 +18,13 @@ func SendMessage(token string, deviceSetting *models.DeviceSettingApp) (int, []b
 	client := &http.Client{}
 	urlSendMessage := urlMainflux +"/http/channels/"+deviceSetting.ChannelID+"/messages/SmartHomeAppLogs"
 	body := &models.DeviceSettingAppBody{
-		MacAdress:       deviceSetting.MacAdress,
+		MacAddress:      deviceSetting.MacAddress,
 		DeviceVolume:    deviceSetting.DeviceVolume,
 		PasswordSetting: deviceSetting.PasswordSetting,
 		ArmDelay:        deviceSetting.ArmDelay,
 		AlarmDelay:      deviceSetting.AlarmDelay,
 		AlarmDuaration:  deviceSetting.AlarmDuaration,
-		AlarmStatus: 	 deviceSetting.AlarmStatus,
+		AlarmStatus:     deviceSetting.AlarmStatus,
 	}
 	jsonDeviceSetting, _ := json.Marshal(body)
 	req, err := http.NewRequest(http.MethodPost, urlSendMessage, bytes.NewBuffer(jsonDeviceSetting))
@@ -50,7 +50,7 @@ func SendMessageDeviceAlarmOff(token string, deviceOff *models.DeviceOffThing) (
 	client := &http.Client{}
 	urlSendMessage := urlMainflux +"/http/channels/"+deviceOff.ChannelID+"/messages/SmartHomeThingLogs"
 	body := &models.DeviceOffThingBody{
-		MacAdress:          deviceOff.MacAdress,
+		MacAddress:         deviceOff.MacAddress,
 		HomeAway:           deviceOff.HomeAway,
 		AlarmDoorbell:      deviceOff.AlarmDoorbell,
 		PinVolt:            deviceOff.PinVolt,
