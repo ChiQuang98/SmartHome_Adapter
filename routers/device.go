@@ -32,6 +32,11 @@ func SetDeviceRouter(router *mux.Router) *mux.Router {
 			negroni.HandlerFunc(controllers.DeviceAlarmOff),
 		)).Methods("POST")
 
+	router.Handle("/aiot-smarthome/v1/thing/device-setting",
+		negroni.New(
+			negroni.HandlerFunc(controllers.DeviceSettingThing),
+		)).Methods("POST")
+
 	router.Handle("/smarthome/v1/testHello",
 		negroni.New(
 			negroni.HandlerFunc(controllers.HelloWorld),

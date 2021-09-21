@@ -14,7 +14,47 @@ type DeviceDelete struct {
 	ThingID   string `json:"thing_id"`
 	ChannelID string `json:"channel_id"`
 }
-type DeviceSettingApp struct{
+
+func (r DeviceDelete) Validate() error {
+	if r.ThingID == "" {
+		return fmt.Errorf("ThingID empty")
+	}
+
+	if r.ChannelID == "" {
+		return fmt.Errorf("ChannelID empty")
+	}
+
+	return nil
+}
+
+type DeviceSettingThing struct {
+	ChannelID          string `json:"channel_id"`
+	MacAddr            string `json:"mac_address"`
+	HomeAway           int64  `json:"home_away"`
+	AlarmDoorbell      int64  `json:"alarm_doorbell"`
+	PinVolt            int64  `json:"pin_volt"`
+	ArmingDisarming    int64  `json:"ArmingDisarming"`
+	Boot               int64  `json:"Boot"`
+	RestoreFactory     int64  `json:"RestoreFactory"`
+	FirmwareVersion    int64  `json:"FirmwareVersion"`
+	OtaFirmwareTrigger int64  `json:"OtaFirmwareTrigger"`
+	OtaFirmwareReport  int64  `json:"OtaFirmwareReport"`
+	AlarmStatus        int64  `json:"AlarmStatus"`
+}
+
+func (r DeviceSettingThing) Validate() error {
+	if r.MacAddr == "" {
+		return fmt.Errorf("MacAddr empty")
+	}
+
+	if r.ChannelID == "" {
+		return fmt.Errorf("ChannelID empty")
+	}
+
+	return nil
+}
+
+type DeviceSettingApp struct {
 	ChannelID       string `json:"channel_id"`
 	MacAddress      string `json:"mac_address"`
 	DeviceVolume    int    `json:"device_volume"`
@@ -37,7 +77,7 @@ type DeviceOffThing struct {
 	FirmwareVersion    string `json:"firmware_version"`
 	OtaFirmwareTrigger int    `json:"ota_firmware_trigger"`
 	OtaFirmwareReport  int    `json:"ota_firmware_report"`
-	AlarmStatus int `json:"alarm_status"`
+	AlarmStatus        int    `json:"alarm_status"`
 }
 type DeviceOffThingBody struct {
 	MacAddress         string `json:"mac_address"`
@@ -51,7 +91,7 @@ type DeviceOffThingBody struct {
 	FirmwareVersion    string `json:"firmware_version"`
 	OtaFirmwareTrigger int    `json:"ota_firmware_trigger"`
 	OtaFirmwareReport  int    `json:"ota_firmware_report"`
-	AlarmStatus int `json:"alarm_status"`
+	AlarmStatus        int    `json:"alarm_status"`
 }
 type DeviceSettingAppBody struct {
 	MacAddress      string `json:"mac_address"`
@@ -61,17 +101,6 @@ type DeviceSettingAppBody struct {
 	AlarmDelay      int    `json:"alarm_delay"`
 	AlarmDuaration  int    `json:"alarm_duaration"`
 	AlarmStatus     int    `json:"alarm_status"`
-}
-func (r DeviceDelete) Validate() error {
-	if r.ThingID == "" {
-		return fmt.Errorf("ThingID empty")
-	}
-
-	if r.ChannelID == "" {
-		return fmt.Errorf("ChannelID empty")
-	}
-
-	return nil
 }
 
 type ThingRequest struct {

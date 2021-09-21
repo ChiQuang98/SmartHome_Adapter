@@ -8,6 +8,8 @@ import (
 const (
 	KindUnexpected Kind = iota + 1
 	KindInvalidToken
+	KindUnauthorization
+	KindNotFound
 )
 
 type Op string

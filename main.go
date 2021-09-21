@@ -38,8 +38,6 @@ func main() {
 
 	bind.RegisterInfluxRepository(influxRepo)
 
-	influxRepo.GetLatestSmartHomeAppLog("QUA1N42G3MAC")
-
 	routerApi := routers.InitRoutes()
 	nApi := negroni.Classic()
 	c := cors.New(cors.Options{

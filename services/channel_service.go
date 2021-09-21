@@ -13,10 +13,11 @@ import (
 
 	"github.com/golang/glog"
 )
-func SendMessage(token string, deviceSetting *models.DeviceSettingApp) (int, []byte){
+
+func SendMessage(token string, deviceSetting *models.DeviceSettingApp) (int, []byte) {
 	///http/channels/79f4a262-fe70-460c-8575-3969f0047135/messages
 	client := &http.Client{}
-	urlSendMessage := urlMainflux +"/http/channels/"+deviceSetting.ChannelID+"/messages/SmartHomeAppLogs"
+	urlSendMessage := urlMainflux + "/http/channels/" + deviceSetting.ChannelID + "/messages/SmartHomeAppLogs"
 	body := &models.DeviceSettingAppBody{
 		MacAddress:      deviceSetting.MacAddress,
 		DeviceVolume:    deviceSetting.DeviceVolume,
@@ -43,12 +44,12 @@ func SendMessage(token string, deviceSetting *models.DeviceSettingApp) (int, []b
 		data, _ := ioutil.ReadAll(resChannel.Body)
 		return resChannel.StatusCode, data
 	}
-	return resChannel.StatusCode,nil
+	return resChannel.StatusCode, nil
 }
-func SendMessageDeviceAlarmOff(token string, deviceOff *models.DeviceOffThing) (int, []byte){
+func SendMessageDeviceAlarmOff(token string, deviceOff *models.DeviceOffThing) (int, []byte) {
 	///http/channels/79f4a262-fe70-460c-8575-3969f0047135/messages
 	client := &http.Client{}
-	urlSendMessage := urlMainflux +"/http/channels/"+deviceOff.ChannelID+"/messages/SmartHomeThingLogs"
+	urlSendMessage := urlMainflux + "/http/channels/" + deviceOff.ChannelID + "/messages/SmartHomeThingLogs"
 	body := &models.DeviceOffThingBody{
 		MacAddress:         deviceOff.MacAddress,
 		HomeAway:           deviceOff.HomeAway,
@@ -80,7 +81,7 @@ func SendMessageDeviceAlarmOff(token string, deviceOff *models.DeviceOffThing) (
 		data, _ := ioutil.ReadAll(resChannel.Body)
 		return resChannel.StatusCode, data
 	}
-	return resChannel.StatusCode,nil
+	return resChannel.StatusCode, nil
 }
 func CreateChannel(deviceCreate *models.DeviceCreate) (int, []byte) {
 	token := deviceCreate.Token

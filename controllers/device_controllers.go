@@ -1,11 +1,13 @@
 package controllers
 
 import (
+	"SmartHome_Adapter/bind"
 	"SmartHome_Adapter/core_libs/base"
 	"SmartHome_Adapter/core_libs/models"
 	"SmartHome_Adapter/errors"
 	"SmartHome_Adapter/services"
 	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
@@ -117,6 +119,70 @@ func DeleteDevice(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) {
 		"result": "success",
 	})
 }
+
+func DeviceSettingThing(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) {
+	req := models.DeviceSettingThing{}
+
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		responseJson(w, http.StatusBadRequest, map[string]string{
+			"error": base.BAD_REQUEST,
+		})
+		return
+	}
+
+	if err := req.Validate(); err != nil {
+		responseJson(w, http.StatusBadRequest, map[string]string{
+			"error": base.BAD_REQUEST,
+		})
+		return
+	}
+
+	token := r.Header.Get("Authorization")
+
+	latest, err := services.DeviceSettingThing(
+		bind.LastestSmartHomeAppLogReadModel(),
+		token,
+		req.ChannelID,
+		services.ThingLog{
+			MacAddr:            req.MacAddr,
+			HomeAway:           req.HomeAway,
+			AlarmDoorbell:      req.AlarmDoorbell,
+			PinVolt:            req.PinVolt,
+			ArmingDisarming:    req.ArmingDisarming,
+			RestoreFactory:     req.RestoreFactory,
+			FirmwareVersion:    req.FirmwareVersion,
+			OtaFirmwareTrigger: req.OtaFirmwareTrigger,
+			OtaFirmwareReport:  req.OtaFirmwareReport,
+			AlarmStatus:        req.AlarmStatus,
+		},
+	)
+
+	if err != nil {
+		if errors.Is(errors.KindNotFound, err) {
+			responseJson(w, http.StatusNotFound, map[string]interface{}{
+				"error": fmt.Sprintf("Thing not found | mac_address:%s", req.MacAddr),
+			})
+			return
+		}
+
+		if errors.Is(errors.KindUnauthorization, err) {
+			responseJson(w, http.StatusUnauthorized, map[string]interface{}{
+				"error": base.UNAUTHORIZED,
+			})
+			return
+		}
+	}
+
+	responseJson(w, http.StatusOK, map[string]interface{}{
+		"mac_address":      latest.MacAddr,
+		"device_volume":    latest.DeviceVolume,
+		"password_setting": latest.PasswordSetting,
+		"arm_delay":        latest.AlarmDelay,
+		"alarm_delay":      latest.AlarmDelay,
+		"alarm_duaration":  latest.AlarmDuaration,
+	})
+}
+
 func DeviceAlarmOff(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) {
 	deviceAlarmOff := new(models.DeviceOffThing)
 	decoder := json.NewDecoder(r.Body)
@@ -129,7 +195,7 @@ func DeviceAlarmOff(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) 
 		w.Write(response)
 	} else {
 		token := r.Header.Get("Authorization")
-		status, res := services.DeviceAlarmOff(token,deviceAlarmOff)
+		status, res := services.DeviceAlarmOff(token, deviceAlarmOff)
 		w.WriteHeader(status)
 		if status == http.StatusOK {
 			w.Write(res)
@@ -153,7 +219,7 @@ func DeviceSettingApp(w http.ResponseWriter, r *http.Request, n http.HandlerFunc
 		w.Write(response)
 	} else {
 		token := r.Header.Get("Authorization")
-		status, res := services.DeviceSettingApp(token,deviceSettingApp)
+		status, res := services.DeviceSettingApp(token, deviceSettingApp)
 		w.WriteHeader(status)
 		if status == http.StatusOK {
 			w.Write(res)
