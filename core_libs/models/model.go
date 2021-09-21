@@ -22,6 +22,36 @@ type DeviceSettingApp struct{
 	ArmDelay int `json:"arm_delay"`
 	AlarmDelay int `json:"alarm_delay"`
 	AlarmDuaration int `json:"alarm_duaration"`
+	AlarmStatus int `json:"alarm_status"`
+}
+type DeviceOffThing struct {
+	ChannelID string `json:"channel_id"`
+	MacAdress string `json:"mac_adress"`
+	HomeAway int `json:"home_away"`
+	AlarmDoorbell int `json:"alarm_doorbell"`
+	PinVolt int `json:"pin_volt"`
+	ArmingDisarming int `json:"arming_disarming"`
+	DoorStatus int `json:"door_status"`
+	Boot int `json:"boot"`
+	RestoreFactory int `json:"restore_factory"`
+	FirmwareVersion string `json:"firmware_version"`
+	OtaFirmwareTrigger int `json:"ota_firmware_trigger"`
+	OtaFirmwareReport int `json:"ota_firmware_report"`
+	AlarmStatus int `json:"alarm_status"`
+}
+type DeviceOffThingBody struct {
+	MacAdress string `json:"mac_adress"`
+	HomeAway int `json:"home_away"`
+	AlarmDoorbell int `json:"alarm_doorbell"`
+	PinVolt int `json:"pin_volt"`
+	ArmingDisarming int `json:"arming_disarming"`
+	DoorStatus int `json:"door_status"`
+	Boot int `json:"boot"`
+	RestoreFactory int `json:"restore_factory"`
+	FirmwareVersion string `json:"firmware_version"`
+	OtaFirmwareTrigger int `json:"ota_firmware_trigger"`
+	OtaFirmwareReport int `json:"ota_firmware_report"`
+	AlarmStatus int `json:"alarm_status"`
 }
 type DeviceSettingAppBody struct {
 	MacAdress string `json:"mac_adress"`
@@ -30,6 +60,7 @@ type DeviceSettingAppBody struct {
 	ArmDelay int `json:"arm_delay"`
 	AlarmDelay int `json:"alarm_delay"`
 	AlarmDuaration int `json:"alarm_duaration"`
+	AlarmStatus int `json:"alarm_status"`
 }
 func (r DeviceDelete) Validate() error {
 	if r.ThingID == "" {

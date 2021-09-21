@@ -117,12 +117,36 @@ func DeleteDevice(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) {
 		"result": "success",
 	})
 }
+func DeviceAlarmOff(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) {
+	deviceAlarmOff := new(models.DeviceOffThing)
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(deviceAlarmOff)
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		ResponseErr := models.ErrorResponse{Error: base.BAD_REQUEST}
+		response, _ := json.Marshal(&ResponseErr)
+		w.Write(response)
+	} else {
+		token := r.Header.Get("Authorization")
+		status, res := services.DeviceAlarmOff(token,deviceAlarmOff)
+		w.WriteHeader(status)
+		if status == http.StatusOK {
+			w.Write(res)
+		} else {
+			ResponseErr := models.ErrorResponse{Error: string(res)}
+			response, _ := json.Marshal(&ResponseErr)
+			w.Write(response)
+		}
+	}
+}
+
 func DeviceSettingApp(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) {
 	deviceSettingApp := new(models.DeviceSettingApp)
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(deviceSettingApp)
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	if err != nil {
+	if err != nil  {
 		w.WriteHeader(http.StatusBadRequest)
 		ResponseErr := models.ErrorResponse{Error: base.BAD_REQUEST}
 		response, _ := json.Marshal(&ResponseErr)
