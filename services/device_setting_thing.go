@@ -9,17 +9,18 @@ type AppLog struct {
 	ArmDelay        int64
 	AlarmDelay      int64
 	AlarmDuaration  int64
+	AlarmStatus     int64
 }
 
 type ThingLog struct {
 	MacAddr            string
+	FirmwareVersion    string
 	HomeAway           int64
 	AlarmDoorbell      int64
 	PinVolt            int64
 	ArmingDisarming    int64
 	Boot               int64
 	RestoreFactory     int64
-	FirmwareVersion    int64
 	OtaFirmwareTrigger int64
 	OtaFirmwareReport  int64
 	AlarmStatus        int64

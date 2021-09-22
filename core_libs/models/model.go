@@ -29,21 +29,22 @@ func (r DeviceDelete) Validate() error {
 
 type DeviceSettingThing struct {
 	ChannelID          string `json:"channel_id"`
-	MacAddr            string `json:"mac_address"`
+	MacAddress         string `json:"mac_address"`
+	FirmwareVersion    string `json:"firmware_version"`
 	HomeAway           int64  `json:"home_away"`
 	AlarmDoorbell      int64  `json:"alarm_doorbell"`
 	PinVolt            int64  `json:"pin_volt"`
-	ArmingDisarming    int64  `json:"ArmingDisarming"`
-	Boot               int64  `json:"Boot"`
-	RestoreFactory     int64  `json:"RestoreFactory"`
-	FirmwareVersion    int64  `json:"FirmwareVersion"`
-	OtaFirmwareTrigger int64  `json:"OtaFirmwareTrigger"`
-	OtaFirmwareReport  int64  `json:"OtaFirmwareReport"`
-	AlarmStatus        int64  `json:"AlarmStatus"`
+	ArmingDisarming    int64  `json:"arming_disarming"`
+	DoorStatus         int64  `json:"door_status"`
+	Boot               int64  `json:"boot"`
+	RestoreFactory     int64  `json:"restore_factory"`
+	OtaFirmwareTrigger int64  `json:"ota_firmware_trigger"`
+	OtaFirmwareReport  int64  `json:"ota_firmware_report"`
+	AlarmStatus        int64  `json:"alarm_status"`
 }
 
 func (r DeviceSettingThing) Validate() error {
-	if r.MacAddr == "" {
+	if r.MacAddress == "" {
 		return fmt.Errorf("MacAddr empty")
 	}
 

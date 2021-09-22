@@ -27,7 +27,7 @@ func (r Repository) GetLatestSmartHomeAppLog(macAddr string) (services.AppLog, e
 
 	influxQuery := influxdb1.Query{
 		Command: `
-			SELECT "alarm_delay", "alarm_duaration", "arm_delay", "device_volume", "mac_address", "password_setting" 
+			SELECT "alarm_delay", "alarm_duaration", "alarm_status", "arm_delay", "device_volume", "mac_address", "password_setting" 
 				FROM "SmartHomeAppLogs"
 				WHERE "mac_address" = $mac_addr
 				ORDER BY "time" DESC

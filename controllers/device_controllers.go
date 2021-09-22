@@ -144,7 +144,7 @@ func DeviceSettingThing(w http.ResponseWriter, r *http.Request, n http.HandlerFu
 		token,
 		req.ChannelID,
 		services.ThingLog{
-			MacAddr:            req.MacAddr,
+			MacAddr:            req.MacAddress,
 			HomeAway:           req.HomeAway,
 			AlarmDoorbell:      req.AlarmDoorbell,
 			PinVolt:            req.PinVolt,
@@ -160,7 +160,7 @@ func DeviceSettingThing(w http.ResponseWriter, r *http.Request, n http.HandlerFu
 	if err != nil {
 		if errors.Is(errors.KindNotFound, err) {
 			responseJson(w, http.StatusNotFound, map[string]interface{}{
-				"error": fmt.Sprintf("Thing not found | mac_address:%s", req.MacAddr),
+				"error": fmt.Sprintf("Thing not found | mac_address:%s", req.MacAddress),
 			})
 			return
 		}
@@ -180,6 +180,7 @@ func DeviceSettingThing(w http.ResponseWriter, r *http.Request, n http.HandlerFu
 		"arm_delay":        latest.AlarmDelay,
 		"alarm_delay":      latest.AlarmDelay,
 		"alarm_duaration":  latest.AlarmDuaration,
+		"alarm_status":     latest.AlarmStatus,
 	})
 }
 
