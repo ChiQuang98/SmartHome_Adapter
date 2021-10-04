@@ -144,7 +144,7 @@ func DeviceSettingThing(w http.ResponseWriter, r *http.Request, n http.HandlerFu
 		token,
 		req.ChannelID,
 		services.ThingLog{
-			MacAddr:            req.MacAddress,
+			MacAddress:         req.MacAddress,
 			HomeAway:           req.HomeAway,
 			AlarmDoorbell:      req.AlarmDoorbell,
 			PinVolt:            req.PinVolt,
@@ -174,10 +174,10 @@ func DeviceSettingThing(w http.ResponseWriter, r *http.Request, n http.HandlerFu
 	}
 
 	responseJson(w, http.StatusOK, map[string]interface{}{
-		"mac_address":      latest.MacAddr,
+		"mac_address":      latest.MacAddress,
 		"device_volume":    latest.DeviceVolume,
 		"password_setting": latest.PasswordSetting,
-		"arm_delay":        latest.AlarmDelay,
+		"arm_delay":        latest.ArmDelay,
 		"alarm_delay":      latest.AlarmDelay,
 		"alarm_duaration":  latest.AlarmDuaration,
 		"alarm_status":     latest.AlarmStatus,

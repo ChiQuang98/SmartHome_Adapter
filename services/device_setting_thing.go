@@ -3,7 +3,7 @@ package services
 import "SmartHome_Adapter/errors"
 
 type AppLog struct {
-	MacAddr         string
+	MacAddress      string
 	PasswordSetting string
 	DeviceVolume    int64
 	ArmDelay        int64
@@ -13,7 +13,7 @@ type AppLog struct {
 }
 
 type ThingLog struct {
-	MacAddr            string
+	MacAddress         string
 	FirmwareVersion    string
 	HomeAway           int64
 	AlarmDoorbell      int64
@@ -40,7 +40,7 @@ func DeviceSettingThing(readmodel LasAppLogReadModel, token string, chanid strin
 		return AppLog{}, errors.E(op, err)
 	}
 
-	latest, err := readmodel.GetLatestSmartHomeAppLog(l.MacAddr)
+	latest, err := readmodel.GetLatestSmartHomeAppLog(l.MacAddress)
 	if err != nil {
 		if errors.Is(errors.KindNotFound, err) {
 			return AppLog{}, errors.E(op, errors.KindNotFound, err)

@@ -51,7 +51,7 @@ func toSmartHomeAppLog(v []interface{}) (services.AppLog, error) {
 	}
 
 	return services.AppLog{
-		MacAddr:         macAddr,
+		MacAddress:      macAddr,
 		PasswordSetting: passwordSetting,
 		DeviceVolume:    deviceVolume,
 		ArmDelay:        armDelay,

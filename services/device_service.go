@@ -95,7 +95,7 @@ func DeleteDevice(token, thingId, channelId string) error {
 func DeviceAlarmOff(thingToken string, deviceOff *models.DeviceOffThing) (int, []byte) {
 	statusSendMessage, res := SendMessageDeviceAlarmOff(thingToken, deviceOff)
 	if statusSendMessage != 202 && res != nil {
-		if statusSendMessage == 403 || statusSendMessage == 503{
+		if statusSendMessage == 403 || statusSendMessage == 503 {
 			return 401, []byte(base.UNAUTHORIZED)
 		}
 		if statusSendMessage == 400 {
@@ -116,7 +116,7 @@ func DeviceAlarmOff(thingToken string, deviceOff *models.DeviceOffThing) (int, [
 func DeviceSettingApp(thingToken string, deviceSetting *models.DeviceSettingApp) (int, []byte) {
 	statusSendMessage, res := SendMessage(thingToken, deviceSetting)
 	if statusSendMessage != 202 && res != nil {
-		if statusSendMessage == 403  || statusSendMessage == 503{
+		if statusSendMessage == 403 || statusSendMessage == 503 {
 			return 401, []byte(base.UNAUTHORIZED)
 		}
 		if statusSendMessage == 400 {
@@ -145,7 +145,7 @@ func SendMessageDeviceSettings(token, chanID string, setting ThingLog) error {
 	)
 
 	body := map[string]interface{}{
-		"mac_address":        setting.MacAddr,
+		"mac_address":        setting.MacAddress,
 		"home_away":          setting.HomeAway,
 		"alarm_doorbell":     setting.AlarmDoorbell,
 		"pin_volt":           setting.PinVolt,
