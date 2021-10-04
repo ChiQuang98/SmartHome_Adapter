@@ -148,6 +148,7 @@ func SendMessageDeviceSettings(token, chanID string, setting ThingLog) error {
 		"mac_address":        setting.MacAddress,
 		"home_away":          setting.HomeAway,
 		"alarm_doorbell":     setting.AlarmDoorbell,
+		"door_status":        setting.DoorStatus,
 		"pin_volt":           setting.PinVolt,
 		"ArmingDisarming":    setting.ArmingDisarming,
 		"Boot":               setting.Boot,

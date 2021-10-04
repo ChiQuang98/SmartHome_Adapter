@@ -154,6 +154,7 @@ func DeviceSettingThing(w http.ResponseWriter, r *http.Request, n http.HandlerFu
 			OtaFirmwareTrigger: req.OtaFirmwareTrigger,
 			OtaFirmwareReport:  req.OtaFirmwareReport,
 			AlarmStatus:        req.AlarmStatus,
+			DoorStatus:         req.DoorStatus,
 		},
 	)
 

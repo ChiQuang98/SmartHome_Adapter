@@ -17,6 +17,7 @@ type ThingLog struct {
 	FirmwareVersion    string
 	HomeAway           int64
 	AlarmDoorbell      int64
+	DoorStatus         int64
 	PinVolt            int64
 	ArmingDisarming    int64
 	Boot               int64
