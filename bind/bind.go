@@ -16,3 +16,7 @@ func RegisterInfluxRepository(r influxdb.Repository) {
 func LastestSmartHomeAppLogReadModel() services.LasAppLogReadModel {
 	return influxRepository
 }
+
+func QueryReadModel() services.QueryReadmodel {
+	return influxRepository
+}

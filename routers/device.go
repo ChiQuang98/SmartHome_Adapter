@@ -42,5 +42,9 @@ func SetDeviceRouter(router *mux.Router) *mux.Router {
 			negroni.HandlerFunc(controllers.HelloWorld),
 		)).Methods("GET")
 
+	router.Handle("/aiot-smarthome/v1/query",
+		negroni.New(
+			negroni.HandlerFunc(controllers.Query),
+		)).Methods("POST")
 	return router
 }
