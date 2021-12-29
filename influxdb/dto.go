@@ -19,10 +19,6 @@ func toSmartHomeAppLog(v []interface{}) (services.AppLog, error) {
 		if err != nil {
 			return services.AppLog{}, fmt.Errorf("invalid value of alarm_delay: %T", v[1])
 		}
-
-		if alarmDelay == 0 {
-			alarmDelay = 5
-		}
 	}
 
 	alarmDuaration := int64(5)
@@ -30,10 +26,6 @@ func toSmartHomeAppLog(v []interface{}) (services.AppLog, error) {
 		alarmDuaration, err = v[2].(json.Number).Int64()
 		if err != nil {
 			return services.AppLog{}, fmt.Errorf("invalid value of alarm_duaration: %T", v[2])
-		}
-
-		if alarmDuaration == 0 {
-			alarmDuaration = 5
 		}
 	}
 
@@ -51,10 +43,6 @@ func toSmartHomeAppLog(v []interface{}) (services.AppLog, error) {
 		if err != nil {
 			return services.AppLog{}, fmt.Errorf("invalid value of arm_delay: %T", v[4])
 		}
-
-		if alarmDelay == 0 {
-			alarmDelay = 5
-		}
 	}
 
 	deviceVolume := int64(1)
@@ -62,10 +50,6 @@ func toSmartHomeAppLog(v []interface{}) (services.AppLog, error) {
 		deviceVolume, err = v[5].(json.Number).Int64()
 		if err != nil {
 			return services.AppLog{}, fmt.Errorf("invalid value of device_volume: %T", v[5])
-		}
-
-		if deviceVolume == 0 {
-			deviceVolume = 1
 		}
 	}
 
